@@ -32,12 +32,17 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { useData } from "@/app/(dashboard)/components/DataContext"
+import { useRouter } from "next/navigation"
 
 export function NavUser({
   user
 }) {
+  const router = useRouter()
   const { isMobile } = useSidebar()
-  
+  function userSignOut() {
+    document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;`
+    router.push('/login')
+  }
 
   return (
     (<SidebarMenu>
@@ -90,7 +95,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem className='cursor-pointer' onClick={()=>{userSignOut()}}>
               <LogOut />
               Выйти
             </DropdownMenuItem>

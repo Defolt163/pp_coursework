@@ -3,10 +3,10 @@ import jwt from 'jsonwebtoken';
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 async function getUserFromToken(token) {
     const decoded = jwt.verify(token, SECRET_KEY);
-    const userId = decoded.id;
+    const role = decoded.role;
     
-    const [role] = await pool.query('SELECT UserRole FROM users WHERE UserId = ?', [userId]);
-    if(role[0].UserRole === 'admin'){
+    //const [role] = await pool.query('SELECT UserRole FROM users WHERE UserId = ?', [userId]);
+    if(role === 'admin'){
         const [rows] = await pool.query('SELECT * FROM users');
         console.log('Результаты запроса в базу данных:', rows);
         return rows;

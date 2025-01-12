@@ -1,8 +1,10 @@
 'use client'
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function CartModule() {
+    const router = useRouter()
     const [cart, setCart] = useState([])
     function getCookie(name) {
         const value = `; ${document.cookie}`;
@@ -24,8 +26,11 @@ export default function CartModule() {
             return res.json()
         })
         .then((items)=>{
-            console.log(items)
-            setCart(items)
+            if(items.length >= 1){
+                setCart(items)
+            }else{
+                setCart([])
+            }
         })
     }
     useEffect(()=>{
@@ -42,8 +47,8 @@ export default function CartModule() {
             body: JSON.stringify({"productId": i})
             }
         )
-        .then(()=>{
-            getCart()
+        .then(() => {
+            getCart();
         })
     }
     return (
@@ -51,7 +56,7 @@ export default function CartModule() {
           <h2 className="text-2xl font-bold">Ваша корзина</h2>
           <div className="flex gap-5 w-full justify-between pl-3 mt-3">
             <div className="cart-price w-3/4 border border-stone-500 rounded-xl p-5 pb-0">
-                {cart?.map((item)=>(
+                {cart.length == 0 ? "Пока что здесь пусто" : cart.map((item)=>(
                     <div key={item?.ProductId} className="cart-item mb-5 w-full flex justify-between">
                         <div className="w-1/5 aspect-square rounded-xl" style={{background: `url(${item?.ProductImagesArray[0]}) center center/cover no-repeat`}}></div>
                         <div className="ml-3 w-3/5 flex flex-col justify-between">
@@ -77,19 +82,19 @@ export default function CartModule() {
                 <div>
                     <div className="flex text-md font-thin my-2 justify-between">
                         <h2 className="">Товары</h2>
-                        <h2 className="">{cart[0]?.TotalCartPrice}p</h2>
+                        <h2 className="">{cart.length != 0 ? cart[0]?.TotalCartPrice : 0}p</h2>
                     </div>
                     <div className="flex text-md font-thin my-2 justify-between">
                         <h2 className="">Скидка 10%</h2>
-                        <h2 className="text-red-700">-{Math.ceil(cart[0]?.TotalCartPrice * 0.1)}p</h2>
+                        <h2 className="text-red-700">-{cart.length != 0 ? Math.ceil(cart[0]?.TotalCartPrice * 0.1) : 0}p</h2>
                     </div>
                 </div>
                 <div>
                     <div className="flex my-2">
                         <h2 className="text-xl font-semibold">Итого:</h2>
-                        <h2 className="text-xl font-semibold">{Math.ceil(cart[0]?.TotalCartPrice * 0.9)}p</h2>
+                        <h2 className="text-xl font-semibold">{cart.length != 0 ? Math.ceil(cart[0]?.TotalCartPrice * 0.9) : 0}p</h2>
                     </div>
-                    <Button className="w-full">Продолжить</Button>
+                    <Button className={`w-full ${cart.length != 0 ? "" : "bg-neutral-600 hover:bg-neutral-600 hover:cursor-auto"}`} onClick={()=>{cart.length != 0 ? router.push('/dashboard/cart/acceptorder') : null}}>Продолжить</Button>
                 </div>
             </div>
           </div>

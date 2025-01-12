@@ -13,10 +13,11 @@ export default function Catalog() {
       console.log(results)
     })
   },[])
+  let i = 0
   return (
     <div className="container mx-auto flex flex-wrap gap-3">
       {products && products.length !== undefined ? products.map((product)=>(
-        <ProductCard catalog={product.ProductCategory} p_key={product.ProductId} name={product.ProductName} price={product.ProductPrice} image={product.ProductImagesArray[0]}/>
+          <ProductCard key={product.ProductId} catalog={product.ProductCategory} p_key={product.ProductId} name={product.ProductName} price={product.ProductPrice} image={product.ProductImagesArray[0]}/>
       )) : <div className="mx-auto font-bold text-xl mb-32">Ошибка сервера. Но мы уже работаем над этим...</div>}
     </div>
   );

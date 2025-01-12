@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useData } from "../../components/DataContext";
+import { Toaster } from "@/components/ui/sonner"
 
 export default function AdminLayout({ children }) {
     const router = useRouter()
@@ -13,6 +14,7 @@ export default function AdminLayout({ children }) {
     return (
         <>
             {children}
+            <Toaster />
         </>
     )
   }

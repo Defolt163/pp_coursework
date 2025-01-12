@@ -1,10 +1,8 @@
 import UiList from "../components/(ui)/UiList/UiList";
-import { DataProvider } from './components/DataContext'
 
 export default function DashboardLayout({ children }) {
 
     return (
-        <DataProvider>
             <section>
                 <div className="container mx-auto flex">
                     <UiList/>
@@ -12,7 +10,6 @@ export default function DashboardLayout({ children }) {
                     {children}
                 </div>
             </section>
-        </DataProvider>
         
     )
   }

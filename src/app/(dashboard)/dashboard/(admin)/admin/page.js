@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Catalog from "@/app/components/Catalog/Catalog";
 import Products from "./components/Products/Products";
+import OrdersTableAdmin from "./components/Orders/OrderTableAdmin";
 
 export default function Admin() {
     const [step, setStep] = useState(0)
@@ -49,7 +50,7 @@ export default function Admin() {
                 return (<div className="w-1/2 flex flex-col gap-3">
                     <Button onClick={()=>setStep(1)}>Пользователи</Button>
                     <Button onClick={()=>setStep(2)}>Товары</Button>
-                    <Button>Заказы</Button>
+                    <Button onClick={()=>setStep(3)}>Заказы</Button>
                   </div>)
             case 1:
                 return (<div className="flex flex-col gap-3">
@@ -83,6 +84,13 @@ export default function Admin() {
                         <Button className="w-1/2 mb-5" onClick={()=>setStep(0)}>Главная</Button>
                         <Products/>
                     </div>)
+                case 3:
+                    return(
+                        <div>
+                            <Button className="w-1/2 mb-5" onClick={()=>setStep(0)}>Главная</Button>
+                            <OrdersTableAdmin/>
+                        </div>
+                    )
             }
         }
             

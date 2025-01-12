@@ -55,7 +55,36 @@ async function deleteCartItem(token, productId) {
     } catch (error) {
         console.error("Ошибка при удалении позиции из корзины:", error.message);
         return new Response(
-            JSON.stringify({ error: "Ошибка сервера при удалении позиции" }),
+            JSON.stringify({ error: "Ошибка сервера" }),
+            { status: 500 }
+        );
+    }
+}
+
+async function addCartItem(token, productId, productCount, productSize) {
+    try {
+        console.log("Токен, который пришел на сервер:", token);
+
+        // Расшифровка токена
+        const decoded = jwt.verify(token, SECRET_KEY);
+        console.log("Декодированный токен:", decoded);
+
+        const userId = decoded.id;
+
+        // Добавляем позицию в корзину
+        await pool.query(
+            "INSERT INTO cart (UserId, ProductId, ProductCount, ProductSize) VALUES (?, ?, ?, ?)",
+            [userId, productId, productCount, productSize]
+        );
+
+        console.log(`Корзина обновлена`);
+        return new Response(JSON.stringify({ message: "Позиция успешно добавлена" }), {
+            status: 200,
+        });
+    } catch (error) {
+        console.error("Ошибка при добавлении позиции в корзину:", error.message);
+        return new Response(
+            JSON.stringify({ error: "Ошибка сервера" }),
             { status: 500 }
         );
     }
@@ -99,6 +128,29 @@ export async function DELETE(req) {
         return new Response(JSON.stringify(user), { status: 200 });
     } catch (error) {
         console.error('Ошибка при удалении позиции из корзины:', error.message);
+        return new Response(JSON.stringify({ message: error.message }), { status: 500 });
+    }
+}
+export async function POST(req) {
+    const token = req.headers.get('authorization')?.split(' ')[1];
+
+    if (!token) {
+        console.log('Токен не предоставлен');
+        return new Response(JSON.stringify({ message: 'Tокен не предоставлен' }), { status: 401 });
+    }
+
+    try {
+        // Извлекаем данные из тела запроса
+        const { productId, productCount, productSize } = await req.json();
+
+        if (!productId) {
+            return new Response(JSON.stringify({ message: 'Не указан productId' }), { status: 400 });
+        }
+
+        const product = await addCartItem(token, productId, productCount, productSize);
+        return new Response(JSON.stringify(product), { status: 200 });
+    } catch (error) {
+        console.error('Ошибка добавления товара в корзину:', error.message);
         return new Response(JSON.stringify({ message: error.message }), { status: 500 });
     }
 }

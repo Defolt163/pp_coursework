@@ -35,3 +35,39 @@ export async function GET(req) {
         return new Response(JSON.stringify({ message: error.message }), { status: 401 });
     }
 }
+
+async function createOrder(token, orderData) {
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        const userId = decoded.id;
+
+        // Вставка нового заказа в таблицу orders
+        const [orderResult] = await pool.query('INSERT INTO orders (UserId, OrderDate, OrderStatus) VALUES (?, NOW(), ?)', [userId, 'Создан']);
+        const orderId = orderResult.insertId;
+
+        // Вставка продуктов в таблицу order_products
+        const orderProducts = orderData.products.map(product => [orderId, product.productId, product.productCount, product.productSize]);
+        await pool.query('INSERT INTO order_products (OrderId, ProductId, ProductCount, ProductSize) VALUES ?', [orderProducts]);
+        await pool.query('DELETE FROM `cart` WHERE UserId = ?', userId)
+        return { orderId, message: 'Order created successfully'};
+    } catch (error) {
+        throw new Error(`Error creating order: ${error.message}`);
+    }
+}
+
+export async function POST(req) {
+    const token = req.headers.get('authorization')?.split(' ')[1];
+    const orderData = await req.json();
+
+    if (!token) {
+        return new Response(JSON.stringify({ message: 'Token not provided' }), { status: 401 });
+    }
+
+    try {
+        const result = await createOrder(token, orderData);
+        return new Response(JSON.stringify(result), { status: 201 });
+    } catch (error) {
+        console.error('Error creating order:', error.message);
+        return new Response(JSON.stringify({ message: error.message }), { status: 500 });
+    }
+}

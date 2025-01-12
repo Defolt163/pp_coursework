@@ -12,6 +12,7 @@ export default {
   			promo: {
   				'50': '#F2F0F1'
   			},
+			backdrop:'rgba(0,0,0,0.55)',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

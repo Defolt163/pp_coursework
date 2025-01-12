@@ -49,7 +49,7 @@ export default function ProductPage() {
 
         <div className="flex justify-between">
             <ProductImages images={productInfo?.ProductImagesArray}/>
-            <ProductInfo name={productInfo?.ProductName} price={productInfo?.ProductPrice} descr={productInfo?.ProductDescription} sizeS={productInfo?.ProductSizeS} sizeM={productInfo?.ProductSizeM} sizeXL={productInfo?.ProductSizeXL} sizeXXL={productInfo?.ProductSizeXXL}/>
+            <ProductInfo id={productInfo?.ProductId} name={productInfo?.ProductName} price={productInfo?.ProductPrice} descr={productInfo?.ProductDescription} sizeS={productInfo?.ProductSizeS} sizeM={productInfo?.ProductSizeM} sizeXL={productInfo?.ProductSizeXL} sizeXXL={productInfo?.ProductSizeXXL}/>
         </div>
         <h2 className="my-3 font-bold text-2xl">Отзывы</h2>
         <div className="flex">

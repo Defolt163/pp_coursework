@@ -41,10 +41,10 @@ export async function PATCH(request, { params }) {
     const token = request.headers.get('authorization')?.split(' ')[1];
 
     const decoded = jwt.verify(token, SECRET_KEY);
-    const reqId = decoded.id;
-    const [role] = await pool.query('SELECT UserRole FROM users WHERE UserId = ?', [reqId]);
+    const role = decoded.role;
+    //const [role] = await pool.query('SELECT UserRole FROM users WHERE UserId = ?', [reqId]);
 
-    if (role[0].UserRole !== 'admin') {
+    if (role !== 'admin') {
       return new Response(JSON.stringify({ message: 'Доступ запрещен' }), { status: 401 });
     }
 

@@ -1,12 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const DataContext = createContext();
 
 export function DataProvider({ children }) {
     const router = useRouter()
+    const userPath = usePathname()
     const [userData, setUserData] = useState(null);
     
     function getCookie(name) {
@@ -15,6 +16,12 @@ export function DataProvider({ children }) {
         if (parts.length === 2) return parts.pop().split(';').shift();
         return null; // Если куки нет
     }
+    function setCookie(name, value, days) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expiresStr = "expires=" + expires.toUTCString();
+        document.cookie = `${name}=${value}; ${expiresStr}; path=/`;
+      }
 
     // Функция для получения данных о пользователе
     function fetchUserData() {
@@ -29,13 +36,18 @@ export function DataProvider({ children }) {
         })
         .then((response) => {
             if (!response.ok) { 
-                if (response.status === 401) {
-                  router.push('/login');
+                if (userPath.startsWith('/dashboard')) {
+                    if (response.status === 401) {
+                        router.push('/login');
+                    }
                 }
             }
-            return response.json()
+            else{
+                return response.json()
+            }
         }).then((res)=>{
-            setUserData(res);
+            setCookie('token', res.newToken, 7)
+            setUserData(res.rows[0])
             console.log("22", res)
         })
         .catch((error) => {
@@ -45,7 +57,7 @@ export function DataProvider({ children }) {
 
     useEffect(() => {
         fetchUserData();
-    }, []);
+    }, [userPath]);
 
     return (
         <DataContext.Provider value={{ userData }}>
