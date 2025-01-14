@@ -5,9 +5,6 @@ import { useEffect } from "react";
 
 export default function Header(){
     const { userData } = useData()
-    useEffect(()=>{
-        console.log("FFF",userData)
-    },[userData])
     return(
         <header className=" container mx-auto py-1.5 columns-3 w-full">
             <Link href={'/'} className="font-black">ROMANOV-STORE</Link>

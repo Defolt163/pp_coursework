@@ -13,7 +13,6 @@ export default function Catalog() {
       console.log(results)
     })
   },[])
-  let i = 0
   return (
     <div className="container mx-auto flex flex-wrap gap-3">
       {products && products.length !== undefined ? products.map((product)=>(

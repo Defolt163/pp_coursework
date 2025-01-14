@@ -70,7 +70,6 @@ export default function ProductInfo(props) {
             </Select>
             <Button onClick={()=>{addCartItem()}}>В КОРЗИНУ</Button>
         </div>
-        
       </div>
     );
   }

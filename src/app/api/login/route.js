@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import pool from '../server';
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY; // Секрет для JWT

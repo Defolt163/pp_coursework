@@ -29,7 +29,7 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
-    const pId = params.id;
+    const { id: pId } = await params
 
     // Парсим тело запроса
     const updates = await request.json();
