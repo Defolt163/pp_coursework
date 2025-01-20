@@ -8,3 +8,5 @@ export default defineConfig({
     setupFiles: ['./jest.setup.js'], // Указание на файл с настройками для тестов, если нужно
   },
 });
+
+//npx vitest
