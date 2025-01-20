@@ -111,7 +111,7 @@ export default function AcceptModule() {
                                 <label htmlFor="kosmo">ТЦ. Космопорт</label>
                             </div>
                             <div className="px-2">
-                                <input type="radio" id="aurora" name="filial" value="aurora" />
+                                <input disabled type="radio" id="aurora" name="filial" value="aurora" />
                                 <label htmlFor="aurora">ТЦ. Аврора Молл</label>
                             </div>
                         </div>

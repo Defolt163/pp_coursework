@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "./components/Header/Header";
 import Script from "next/script";
 import { DataProvider } from "./(dashboard)/components/DataContext";
+import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
         <DataProvider>
           <Header/>
           {children}
+          <Toaster />
         </DataProvider>
         <Script src="https://kit.fontawesome.com/073ad96d9b.js" crossorigin="anonymous"></Script>
       </body>

@@ -10,6 +10,8 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { useState } from "react";
+import { toast } from "sonner"
+import { Toaster } from "@/components/ui/sonner"
 
 export default function ProductInfo(props) {
   function getCookie(name) {
@@ -37,7 +39,15 @@ export default function ProductInfo(props) {
         productSize: selectedSize
       })
     }
-    )
+    ).then(()=>{
+      toast(<div className="flex items-center">
+        Добавлено <i className="fa-solid ml-1 text-xl text-green-600 fa-circle-check"></i>
+      </div>)
+    }).catch(()=>{
+      toast(<div className="flex items-center">
+        Ошибка <i className="fa-solid ml-1 text-xl text-red-600 fa-triangle-exclamation"></i>
+      </div>)
+    })
   }
   
     return (
@@ -70,6 +80,7 @@ export default function ProductInfo(props) {
             </Select>
             <Button onClick={()=>{addCartItem()}}>В КОРЗИНУ</Button>
         </div>
+        <Toaster />
       </div>
     );
   }
