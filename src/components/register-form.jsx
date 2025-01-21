@@ -4,13 +4,21 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
 export function RegisterForm({
   className,
   ...props
 }) {
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null; // Если куки нет
+  }
+
   const router = useRouter()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -52,6 +60,26 @@ export function RegisterForm({
         alert('Пароли не совпадают');
     }
   }
+
+  function fetchUserData() {
+    const token = getCookie('token'); // Получаем токен из куки
+
+    return fetch('/api/login', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    })
+    .then((response) => {
+        if (response.ok) { 
+          router.push('/dashboard')
+        }
+    })
+  }
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   return (
     (<div className={cn("flex flex-col gap-6", className)} {...props}>

@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { Toaster } from "@/components/ui/sonner"
 
 export function LoginForm({
   className,
@@ -18,6 +20,32 @@ export function LoginForm({
     const expiresStr = "expires=" + expires.toUTCString();
     document.cookie = `${name}=${value}; ${expiresStr}; path=/`;
   }
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null; // Если куки нет
+  }
+
+  function fetchUserData() {
+    const token = getCookie('token'); // Получаем токен из куки
+
+    return fetch('/api/login', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    })
+    .then((response) => {
+        if (response.ok) { 
+          router.push('/dashboard')
+        }
+    })
+  }
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   async function login(e) {
@@ -34,14 +62,14 @@ export function LoginForm({
         const res = await response.json();
 
         if (response.ok) {
-            alert('Успешная авторизация');
             setCookie('token', res.token, 7);
+            toast(`Успешная авторизация`)
             router.push('/dashboard')
         } else {
             alert(res.message);
         }
     } catch (error) {
-        alert('Ошибка: Сервер недоступен.');
+        toast(`Ошибка: Сервер недоступен.`)
     }
   }
   return (
@@ -88,6 +116,7 @@ export function LoginForm({
           </div>
         </CardContent>
       </Card>
+      <Toaster />
     </div>)
   );
 }
