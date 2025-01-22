@@ -90,9 +90,9 @@ export default function AcceptModule() {
                 <div className="cart-price border w-full border-stone-500 rounded-xl p-1">
                     <div className="cart-price flex gap-1">
                         {cart.length == 0 ? "Пока что здесь пусто" : cart.map((item)=>(
-                            <div key={item?.ProductId} className={`mb-5 flex h-max p-2 border border-stone-200 rounded-xl ${cart.length > 2 ? "w-1/3" : "w-1/2"}`}> 
+                            <div key={item?.ProductId} className={`mb-5 flex h-auto p-2 border border-stone-200 rounded-xl ${cart.length > 2 ? "w-1/3" : "w-1/2"}`}> 
                                 <div className="w-1/5 h-max aspect-square rounded-xl overflow-hidden" style={{background: `url(${item?.ProductImagesArray[0]}) center center/cover no-repeat`}}></div>
-                                <div className="ml-3 w-3/5">
+                                <div className="ml-3 flex flex-col justify-between w-3/5">
                                     <div>
                                         <h2 className="text-xl font-semibold">{item?.ProductName}</h2>
                                         <h2 className="text-xs text-stone-400 font-thin">Размер: {item?.ProductSize}</h2>
@@ -102,7 +102,7 @@ export default function AcceptModule() {
                             </div>
                         ))}
                     </div>
-                    <h2 className="text-xl font-semibold mb-5">ИТОГО: {cart.length != 0 ? Math.ceil(cart[0]?.TotalCartPrice * 0.9) : 0}p</h2>
+                    <h2 className="text-xl font-semibold mb-5">ИТОГО: {cart.length != 0 ? Math.ceil(cart[0]?.TotalCartPrice) : 0}p</h2>
                     <div className="mb-5">
                         <div className="w-max border border-stone-200">
                             <legend className="bg-slate-500 text-white text-center w-full">Пункт выдачи</legend>

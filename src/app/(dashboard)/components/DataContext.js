@@ -41,6 +41,7 @@ export function DataProvider({ children }) {
                         router.push('/login');
                     }
                 }
+                setCookie('token', 'notAuth', 7)
             }
             else{
                 return response.json()

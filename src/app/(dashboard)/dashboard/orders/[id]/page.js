@@ -48,9 +48,9 @@ export default function OrderId() {
                 <h2>Заказ №{products && products.orderId}</h2>
                   <div className="cart-price flex gap-1">
                       {products?.items?.length == 0 ? "Пока что здесь пусто" : products?.items?.map((item)=>(
-                          <div key={item?.ProductId} className={`mb-5 flex h-max p-2 border border-stone-200 rounded-xl ${products.length > 2 ? "w-1/3" : "w-1/2"}`}> 
+                          <div key={item?.ProductId} className={`mb-5 flex h-auto p-2 border border-stone-200 rounded-xl ${products.length > 2 ? "w-1/3" : "w-1/2"}`}> 
                               <div className="w-1/5 h-max aspect-square rounded-xl overflow-hidden" style={{background: `url(${item?.ProductImagesArray[0]}) center center/cover no-repeat`}}></div>
-                              <div className="ml-3 w-3/5">
+                              <div className="ml-3 flex flex-col justify-between w-3/5">
                                   <div>
                                       <h2 className="text-xl font-semibold">{item?.ProductName}</h2>
                                       <h2 className="text-xs text-stone-400 font-thin">Размер: {item?.ProductSize}</h2>

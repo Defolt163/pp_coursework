@@ -12,8 +12,10 @@ import {
 import { useState } from "react";
 import { toast } from "sonner"
 import { Toaster } from "@/components/ui/sonner"
+import { useRouter } from "next/navigation";
 
 export default function ProductInfo(props) {
+  const router = useRouter()
   function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -27,27 +29,39 @@ export default function ProductInfo(props) {
   }
   function addCartItem(){
     const token = getCookie('token');
-    fetch(`/api/cart`,{
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        productId: props.id,
-        productCount: 1,
-        productSize: selectedSize
-      })
+    if(token !== 'notAuth'){
+      if(selectedSize !== ''){
+        fetch(`/api/cart`,{
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            productId: props.id,
+            productCount: 1,
+            productSize: selectedSize
+          })
+        }
+        ).then(()=>{
+          toast(<div className="flex items-center">
+            Добавлено <i className="fa-solid ml-1 text-xl text-green-600 fa-circle-check"></i>
+          </div>)
+        }).catch(()=>{
+          toast(<div className="flex items-center">
+            Ошибка <i className="fa-solid ml-1 text-xl text-red-600 fa-triangle-exclamation"></i>
+          </div>)
+        })
+      }else{
+        toast(<div className="flex items-center">
+          Выберите размер <i className="fa-solid ml-1 text-xl text-red-600 fa-triangle-exclamation"></i>
+        </div>)
+      }
+    }else{
+      router.push('/login')
     }
-    ).then(()=>{
-      toast(<div className="flex items-center">
-        Добавлено <i className="fa-solid ml-1 text-xl text-green-600 fa-circle-check"></i>
-      </div>)
-    }).catch(()=>{
-      toast(<div className="flex items-center">
-        Ошибка <i className="fa-solid ml-1 text-xl text-red-600 fa-triangle-exclamation"></i>
-      </div>)
-    })
+    
+    
   }
   
     return (

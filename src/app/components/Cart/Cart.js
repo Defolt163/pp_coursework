@@ -93,15 +93,15 @@ export default function CartModule() {
                         <h2 className="">Товары</h2>
                         <h2 className="">{cart.length != 0 ? cart[0]?.TotalCartPrice : 0}p</h2>
                     </div>
-                    <div className="flex text-md font-thin my-2 justify-between">
+                    {/* <div className="flex text-md font-thin my-2 justify-between">
                         <h2 className="">Скидка 10%</h2>
                         <h2 className="text-red-700">-{cart.length != 0 ? Math.ceil(cart[0]?.TotalCartPrice * 0.1) : 0}p</h2>
-                    </div>
+                    </div> */}
                 </div>
                 <div>
                     <div className="flex my-2">
                         <h2 className="text-xl font-semibold">Итого:</h2>
-                        <h2 className="text-xl font-semibold">{cart.length != 0 ? Math.ceil(cart[0]?.TotalCartPrice * 0.9) : 0}p</h2>
+                        <h2 className="text-xl font-semibold">{cart.length != 0 ? Math.ceil(cart[0]?.TotalCartPrice) : 0}p</h2>
                     </div>
                     <Button className={`w-full ${cart.length != 0 ? "" : "bg-neutral-600 hover:bg-neutral-600 hover:cursor-auto"}`} onClick={()=>{cart.length != 0 ? router.push('/dashboard/cart/acceptorder') : null}}>Продолжить</Button>
                 </div>
