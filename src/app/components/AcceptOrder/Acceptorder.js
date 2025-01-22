@@ -38,7 +38,6 @@ export default function AcceptModule() {
         })
         .then((items)=>{
             if(items.length >= 1){
-                console.log("korz",items)
                 setCart(items)
             }
         })

@@ -11,8 +11,8 @@ export async function GET(req, { params }) {
     const reqId = decoded.id;
     const [role] = await pool.query('SELECT UserRole FROM users WHERE UserId = ?', [reqId]);
     if (role[0].UserRole != 'admin') {
-        console.log('Пошол нахуй');
-        return new Response(JSON.stringify({ message: 'Пошол нахуй' }), { status: 401 });
+        console.log('Ошибка доступа');
+        return new Response(JSON.stringify({ message: 'Ошибка доступа' }), { status: 401 });
     }
 
 

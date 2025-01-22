@@ -10,7 +10,6 @@ export default function Catalog() {
       return res.json()
     }).then((results)=>{
       setProducts(results)
-      console.log(results)
     })
   },[])
   return (

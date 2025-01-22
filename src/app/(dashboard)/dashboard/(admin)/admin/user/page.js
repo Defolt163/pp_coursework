@@ -40,7 +40,6 @@ export default function UserInfo() {
           return res.json()
         }).then((result)=>{
           setUserData(result)
-          console.log("dd",result)
         })
       }
     }, [hash])

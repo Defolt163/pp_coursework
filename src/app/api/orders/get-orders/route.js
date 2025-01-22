@@ -60,7 +60,7 @@ export async function POST(req) {
     const orderData = await req.json();
 
     if (!token) {
-        return new Response(JSON.stringify({ message: 'Token not provided' }), { status: 401 });
+        return new Response(JSON.stringify({ message: 'Токен не предоставлен' }), { status: 401 });
     }
 
     try {

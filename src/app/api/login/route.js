@@ -92,7 +92,9 @@ async function getUserFromToken(token) {
             JSON.stringify({ message: 'Готово', token }),
             { status: 201 }
         ); */
-        return {newToken, rows}; // Возвращаем данные пользователя
+        const sanitizedRows = rows.map(({ UserId, ...rest }) => rest);
+
+        return { newToken, rows: sanitizedRows };
     } catch (error) {
         console.error('Ошибка при декодировании токена или запросе пользователя:', error);
         throw new Error('Invalid token or user not found');

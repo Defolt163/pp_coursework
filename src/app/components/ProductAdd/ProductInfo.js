@@ -63,7 +63,7 @@ export default function AddProduct() {
   const [backdropProgress, setBackdropProgress] = useState('invisible')
 
   const handleCategoryChange = (value) => {
-    setProductCategory(value); // Обновляем состояние выбранной категории
+    setProductCategory(value);
   }
   const handleFileChange = (event) => {
     // Получаем все выбранные файлы
@@ -79,8 +79,7 @@ export default function AddProduct() {
     setBackdropProgress('visible')
     const token = getCookie('token');
   
-    const sizesArray = Object.values(sizes).filter(size => size !== ''); // Фильтруем пустые значения
-    console.log(sizesArray);
+    const sizesArray = Object.values(sizes).filter(size => size !== '');
   
     const formData = new FormData();
     setProgressValue(30)
@@ -92,9 +91,8 @@ export default function AddProduct() {
     formData.append('sizes', sizesArray);
   
     Array.from(selectedFiles).forEach((file, index) => {
-      formData.append('files', file); // "files" — это имя поля на сервере, через которое будет получен массив файлов
+      formData.append('files', file);
     });
-    console.log('data', formData);
     setProgressValue(80)
     try {
       await fetch('/api/products/add', {

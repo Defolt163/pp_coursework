@@ -30,7 +30,6 @@ export default function Products() {
           return acc;
         }, {});
       setProducts(groupedByCategory)
-      console.log("DDD", groupedByCategory)
     })
   }
   useEffect(()=>{
@@ -85,8 +84,6 @@ export default function Products() {
       if (!response.ok) {
         throw new Error(`Ошибка при обновлении: ${response.statusText}`);
       }
-  
-      console.log(`Поле "${field}" для продукта ${productId} успешно обновлено.`);
     } catch (error) {
       console.error('Ошибка при обновлении данных:', error);
     }

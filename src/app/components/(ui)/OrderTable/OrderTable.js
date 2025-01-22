@@ -24,7 +24,6 @@ export default function OrdersTable() {
             return res.json()
         })
         .then((orders)=>{
-            console.log(orders)
             setOrders(orders)
         })
     },[])
